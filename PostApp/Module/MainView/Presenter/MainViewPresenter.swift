@@ -23,23 +23,6 @@ class MainViewPresenter: MainViewPresenterProtocol {
         self.networkManager = networkManager
     }
     
-//    func getAllPosts() {
-//        networkManager.sendReqeust { [weak self] posts in
-//            guard let self = self else { return }
-//            CoreDataManager.shared.fetchAllPosts()
-//            if CoreDataManager.shared.allPost.count == 0 {
-//
-//                for post in posts {
-//                    CoreDataManager.shared.createPosts(onePost: post)
-//                }
-//            }
-//            CoreDataManager.shared.fetchAllPosts()
-//            DispatchQueue.main.async {
-//                self.view?.postTableView.reloadData()
-//            }
-//        }
-//    }
-    
     func getAllPosts() {
         CoreDataManager.shared.fetchAllPosts()
         if CoreDataManager.shared.allPost.count == 0 {
@@ -59,24 +42,8 @@ class MainViewPresenter: MainViewPresenterProtocol {
             }
         }
     }
-    
-    
     func deleteLikedPosts() {
         CoreDataManager.shared.deleteLikedPosts()
         self.view?.postTableView.reloadData()
     }
-    
 }
-
-
-
-
-//    func getAllPosts() {
-//        networkManager.sendReqeust { [weak self] posts in
-//            guard let self = self else { return }
-//            self.allPosts = posts
-//            DispatchQueue.main.async {
-//                self.view?.postTableView.reloadData()
-//            }
-//        }
-//    }

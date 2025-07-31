@@ -14,10 +14,8 @@ public class CoreDataPost: NSManagedObject {
 
 }
 
-
-
 extension CoreDataPost {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CoreDataPost> {
         return NSFetchRequest<CoreDataPost>(entityName: "CoreDataPost")
     }

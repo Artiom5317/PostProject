@@ -8,7 +8,7 @@
 import UIKit
 
 
-class PostCellView: UITableViewCell {
+final class PostCellView: UITableViewCell {
     
     static let identifier: String = "PostCellView"
     

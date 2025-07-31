@@ -12,7 +12,7 @@ protocol LikedViewPresenterProtocol: AnyObject {
     var likedPost: [CoreDataPost] { get set }
 }
 
-class LikedViewPresenter: LikedViewPresenterProtocol {
+final class LikedViewPresenter: LikedViewPresenterProtocol {
     
     weak var view: LikedViewControllerProtocol?
     var likedPost: [CoreDataPost] = []
@@ -35,13 +35,4 @@ class LikedViewPresenter: LikedViewPresenterProtocol {
             self.view?.postTableView.reloadData()
         }
     }
-    
-//    func getLikedPosts() {
-//        CoreDataManager.shared.fetchAllPosts()
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else { return }
-//            self.view?.postTableView.reloadData()
-//        }
-//    }
-    
 }

@@ -13,7 +13,7 @@ protocol NetworkManagerProtocol: AnyObject {
 }
 
 
-class NetworkManager: NetworkManagerProtocol {
+final class NetworkManager: NetworkManagerProtocol {
     
     let api: String = "https://jsonplaceholder.typicode.com/posts"
     
@@ -22,7 +22,6 @@ class NetworkManager: NetworkManagerProtocol {
         guard let url = URL(string: api) else { return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        
         URLSession.shared.dataTask(with: urlRequest) { data, _, error in
             guard error  == nil else {
                 print(error!.localizedDescription)
@@ -31,7 +30,8 @@ class NetworkManager: NetworkManagerProtocol {
             
             guard let data else {
                 print("no data")
-                return }
+                return
+            }
             
             do {
                 let result = try JSONDecoder().decode([Post].self, from: data)

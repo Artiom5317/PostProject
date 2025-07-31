@@ -3,7 +3,7 @@
 //  PostApp
 //
 //  Created by Artiom on 29.07.25.
-//
+
 
 import UIKit
 
@@ -11,7 +11,7 @@ protocol LikedViewControllerProtocol: AnyObject {
     var postTableView: UITableView { get set }
 }
 
-class LikedViewController: UIViewController, LikedViewControllerProtocol {
+final class LikedViewController: UIViewController, LikedViewControllerProtocol {
     
     var presenter: LikedViewPresenterProtocol!
     
@@ -31,9 +31,7 @@ class LikedViewController: UIViewController, LikedViewControllerProtocol {
     
 }
 
-
 extension LikedViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         presenter.likedPost.count
     }
@@ -51,7 +49,6 @@ extension LikedViewController: UITableViewDataSource {
             CoreDataManager.shared.saveContext()
             presenter.getLikedPosts()
         }
-        
         return cell
     }
 }
