@@ -27,6 +27,7 @@ final class LikedViewController: UIViewController, LikedViewControllerProtocol {
         super.viewDidLoad()
         view.addSubview(postTableView)
         presenter.getLikedPosts()
+        title = "Liked post"
     }
     
 }

@@ -47,17 +47,12 @@ final class PostCellView: UITableViewCell {
 
     lazy var customUI: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 8
         $0.layer.borderWidth = 0.4
         $0.layer.borderColor = UIColor.gray.cgColor
-        
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-        $0.addSubview(title)
-        $0.addSubview(body)
-        $0.addSubview(profileImage)
-        $0.addSubview(likeBtn)
+        $0.addSubviews(title, body, profileImage, likeBtn)
         return $0
     }(UIView())
     
@@ -67,7 +62,6 @@ final class PostCellView: UITableViewCell {
         contentView.addSubview(customUI)
         setupConstaints()
     }
-    
     
     func setupConstaints() {
         NSLayoutConstraint.activate([

@@ -7,50 +7,35 @@
 
 import UIKit
 
-
 protocol MainViewControllerProtocol: AnyObject {
     var postTableView: UITableView { get set }
 }
 
 final class MainViewController: UIViewController, MainViewControllerProtocol {
+    
     var presenter: MainViewPresenterProtocol!
-
     
     lazy var postTableView: UITableView = {
-        $0.frame = CGRect(x: 0, y: 150, width: view.frame.width, height: view.frame.height - 150)
+        $0.frame = CGRect(x: 0, y: goToLikedViewController.frame.maxY + 10, width: view.bounds.width, height: view.bounds.height - 150)
         $0.register(PostCellView.self, forCellReuseIdentifier: PostCellView.identifier)
         $0.dataSource = self
-        $0.backgroundColor = .white
+        $0.backgroundColor = .backgroundApp
         $0.separatorStyle = .none
         $0.refreshControl = refreshControl
         return $0
     }(UITableView(frame: .zero, style: .plain))
     
-    lazy var goToLikedViewController: UIButton = {
-        $0.frame = CGRect(x: 20, y: 100, width: 100, height: 50)
-        $0.setTitle( "Go to liked", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
-        $0.layer.cornerRadius = 25
-        $0.backgroundColor = .systemBlue
-        return $0
-    }(UIButton(primaryAction: UIAction(handler: { [weak self] _ in
+    lazy var goToLikedViewController = UIButton.createButton(frame: CGRect(x: 20, y: 100, width: 100, height: 45),
+                                                             title: "Go to liked",
+                                                             bgColor: .systemBlue
+                                                             , action: UIAction(handler: { [weak self] _ in
         guard let self = self else { return }
         self.navigationController?.pushViewController(Builder.createLikedView(), animated: true)
-    })))
-    
-    lazy var deleteLikedPosts: UIButton = {
-        $0.frame = CGRect(x: view.frame.maxX - 120, y: 100, width: 100, height: 50)
-        $0.layer.cornerRadius = 20
-        $0.clipsToBounds = true
-        $0.setTitle("Delete liked", for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        $0.backgroundColor = .red
-        return $0
-    }(UIButton(primaryAction: UIAction(handler: { [weak self] _ in
+    }))
+    lazy var deleteLikedPosts = UIButton.createButton(frame: CGRect(x: view.frame.maxX - 120, y: 100, width: 100, height: 45), title: "Delete liked", bgColor: .red, action: UIAction(handler: { [weak self] _ in
         guard let self = self else { return }
         self.presenter.deleteLikedPosts()
-    })))
+    }))
     
     lazy var refreshControl: UIRefreshControl = {
         $0.addTarget(self, action: #selector(refreshData), for: .valueChanged)
@@ -63,21 +48,27 @@ final class MainViewController: UIViewController, MainViewControllerProtocol {
         postTableView.refreshControl?.endRefreshing()
     }
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.getAllPosts()
-        view.addSubview(postTableView)
-        view.addSubview(goToLikedViewController)
-        view.addSubview(deleteLikedPosts)
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+        view.backgroundColor = .backgroundApp
+        title = "Posts"
+        view.addSubviews(postTableView, goToLikedViewController, deleteLikedPosts)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = nil
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.postTableView.reloadData()
     }
+    
 }
+
+
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,5 +95,3 @@ extension MainViewController: UITableViewDataSource {
         return cell
     }
 }
-
-
